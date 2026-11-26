@@ -1,11 +1,14 @@
+from . import packet
 from .store import one
 SCHEMA='''
 CREATE TABLE IF NOT EXISTS plugins(id TEXT PRIMARY KEY,uid TEXT,epoch INTEGER,status TEXT);
 CREATE TABLE IF NOT EXISTS devices(id TEXT PRIMARY KEY,plugin TEXT,epoch INTEGER,slot TEXT,serial TEXT,model TEXT,topology TEXT,status TEXT);
 CREATE TABLE IF NOT EXISTS health_samples(id TEXT PRIMARY KEY,device TEXT,epoch INTEGER,seq INTEGER,healthy INTEGER,severity TEXT,at INTEGER);
-'''
+''' + packet.SCHEMA
 def handle(db,x):
  op=x['op']
+ if op=='packet-profile':
+  return packet.bind_profile(db,x)
  if op=='plugin-register':
   old=one(db,'SELECT * FROM plugins WHERE id=?',(x['id'],))
   if old and x['epoch']<=old['epoch']:return {'decision':'stale_plugin'}

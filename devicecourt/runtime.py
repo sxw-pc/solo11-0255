@@ -1,3 +1,4 @@
+from . import packet
 from .store import one
 SCHEMA='''
 CREATE TABLE IF NOT EXISTS start_receipts(id TEXT PRIMARY KEY,allocation TEXT,device TEXT,plugin_epoch INTEGER,container_uid TEXT,status TEXT);
@@ -6,6 +7,8 @@ CREATE TABLE IF NOT EXISTS recovery_cases(id TEXT PRIMARY KEY,allocation TEXT,re
 '''
 def handle(db,x):
  op=x['op']
+ if op=='packet-execute':
+  return packet.execute(db,x)
  if op=='startup-confirm':
   a=one(db,'SELECT * FROM allocations WHERE id=?',(x['allocation'],))
   d=one(db,'SELECT * FROM devices WHERE id=?',(a['device'],)) if a else None
