@@ -1,0 +1,214 @@
+[
+  {
+    "command": "inventory",
+    "input": {
+      "event_id": "p",
+      "op": "plugin-register",
+      "id": "plugin",
+      "uid": "plugin-a",
+      "epoch": 1
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "event_id": "id-S",
+      "op": "device-identify",
+      "id": "S",
+      "plugin": "plugin",
+      "epoch": 1,
+      "slot": "S",
+      "serial": "board-S",
+      "model": "synthetic-fabric",
+      "topology": "row-1"
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "event_id": "id-G",
+      "op": "device-identify",
+      "id": "G",
+      "plugin": "plugin",
+      "epoch": 1,
+      "slot": "G",
+      "serial": "board-G",
+      "model": "synthetic-fabric",
+      "topology": "row-1"
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "event_id": "id-A",
+      "op": "device-identify",
+      "id": "A",
+      "plugin": "plugin",
+      "epoch": 1,
+      "slot": "A",
+      "serial": "board-A",
+      "model": "synthetic-fabric",
+      "topology": "row-1"
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "event_id": "id-B",
+      "op": "device-identify",
+      "id": "B",
+      "plugin": "plugin",
+      "epoch": 1,
+      "slot": "B",
+      "serial": "board-B",
+      "model": "synthetic-fabric",
+      "topology": "row-1"
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "event_id": "id-C",
+      "op": "device-identify",
+      "id": "C",
+      "plugin": "plugin",
+      "epoch": 1,
+      "slot": "C",
+      "serial": "board-C",
+      "model": "synthetic-fabric",
+      "topology": "row-1"
+    }
+  },
+  {
+    "command": "fabric",
+    "input": {
+      "event_id": "sa",
+      "op": "plug",
+      "cable": "sa",
+      "left": {
+        "device": "S",
+        "port": "0",
+        "epoch": 1
+      },
+      "right": {
+        "device": "A",
+        "port": "0",
+        "epoch": 1
+      }
+    }
+  },
+  {
+    "command": "fabric",
+    "input": {
+      "event_id": "ga",
+      "op": "plug",
+      "cable": "ga",
+      "left": {
+        "device": "G",
+        "port": "0",
+        "epoch": 1
+      },
+      "right": {
+        "device": "A",
+        "port": "1",
+        "epoch": 1
+      }
+    }
+  },
+  {
+    "command": "fabric",
+    "input": {
+      "event_id": "sb",
+      "op": "plug",
+      "cable": "sb",
+      "left": {
+        "device": "S",
+        "port": "1",
+        "epoch": 1
+      },
+      "right": {
+        "device": "B",
+        "port": "0",
+        "epoch": 1
+      }
+    }
+  },
+  {
+    "command": "fabric",
+    "input": {
+      "event_id": "gb",
+      "op": "plug",
+      "cable": "gb",
+      "left": {
+        "device": "G",
+        "port": "1",
+        "epoch": 1
+      },
+      "right": {
+        "device": "B",
+        "port": "1",
+        "epoch": 1
+      }
+    }
+  },
+  {
+    "command": "fabric",
+    "input": {
+      "event_id": "send-before",
+      "op": "exchange",
+      "source": "S",
+      "destination": "A",
+      "payload": "sample"
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "event_id": "isolate-a",
+      "op": "health-isolate",
+      "id": "health-a",
+      "device": "A",
+      "epoch": 1,
+      "seq": 1,
+      "healthy": false,
+      "severity": "fatal",
+      "at": 11
+    }
+  },
+  {
+    "command": "fabric",
+    "input": {
+      "event_id": "send-after",
+      "op": "exchange",
+      "source": "S",
+      "destination": "A",
+      "payload": "sample"
+    }
+  },
+  {
+    "command": "fabric",
+    "input": {
+      "event_id": "unplug-a",
+      "op": "unplug",
+      "cable": "ga"
+    }
+  },
+  {
+    "command": "fabric",
+    "input": {
+      "event_id": "plug-b-alt",
+      "op": "plug",
+      "cable": "g-b-alt",
+      "left": {
+        "device": "G",
+        "port": "0",
+        "epoch": 1
+      },
+      "right": {
+        "device": "B",
+        "port": "2",
+        "epoch": 1
+      }
+    }
+  }
+]
