@@ -1,0 +1,26 @@
+[
+  {
+    "command": "inventory",
+    "input": {
+      "event_id": "i1",
+      "op": "plugin-register",
+      "id": "plugin-a",
+      "uid": "plugin-uid",
+      "epoch": 1
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "event_id": "i2",
+      "op": "device-identify",
+      "id": "gpu-7",
+      "plugin": "plugin-a",
+      "epoch": 1,
+      "slot": "0000:01",
+      "serial": "serial-7",
+      "model": "gpu-x",
+      "topology": "rack-a"
+    }
+  }
+]

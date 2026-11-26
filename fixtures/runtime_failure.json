@@ -1,0 +1,81 @@
+[
+  {
+    "command": "inventory",
+    "input": {
+      "event_id": "i1",
+      "op": "plugin-register",
+      "id": "plugin-a",
+      "uid": "plugin-uid",
+      "epoch": 1
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "event_id": "i2",
+      "op": "device-identify",
+      "id": "gpu-7",
+      "plugin": "plugin-a",
+      "epoch": 1,
+      "slot": "0000:01",
+      "serial": "serial-7",
+      "model": "gpu-x",
+      "topology": "rack-a"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "event_id": "a1",
+      "op": "quota",
+      "tenant": "t1",
+      "limit": 1
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "event_id": "a2",
+      "op": "request-evaluate",
+      "id": "req-1",
+      "tenant": "t1",
+      "model": "gpu-x",
+      "topology": "rack-a"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "event_id": "a3",
+      "op": "device-reserve",
+      "id": "alloc-1",
+      "request": "req-1",
+      "device": "gpu-7",
+      "holder": "container-1"
+    }
+  },
+  {
+    "command": "runtime",
+    "input": {
+      "event_id": "r1",
+      "op": "startup-confirm",
+      "id": "start-1",
+      "allocation": "alloc-1",
+      "device": "gpu-7",
+      "plugin_epoch": 1,
+      "container_uid": "container-1"
+    }
+  },
+  {
+    "command": "runtime",
+    "input": {
+      "event_id": "fr",
+      "op": "startup-confirm",
+      "id": "bad",
+      "allocation": "none",
+      "device": "none",
+      "plugin_epoch": 1,
+      "container_uid": "none"
+    }
+  }
+]
