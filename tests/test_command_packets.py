@@ -23,3 +23,14 @@ class DevicePacketTest(unittest.TestCase):
                     self.assertEqual(results[-1], {'decision':'packet_executed','width':6,'stride':9,'work':54})
                     self.assertEqual(rows(db,'SELECT family,packet FROM packet_runs'),[{'family':family,'packet':'010309'}])
                 self.assertTrue(replay(path)['verified'])
+
+    def test_batch_mode_remains_latched(self):
+        fixture = Path(__file__).resolve().parents[1] / 'fixtures' / 'packet_batch_latch.json'
+        commands = json.loads(fixture.read_text(encoding='utf-8'))
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory)/'latched.sqlite'
+            with closing(connect(path)) as db:
+                outcomes = [run(db,event['command'],event['input']) for event in commands]
+                self.assertEqual([step['decision'] for step in outcomes[-4:]],
+                    ['packet_mode_latched_new','packet_mode_latched','packet_mode_latched','packet_executed'])
+            self.assertTrue(replay(path)['verified'])

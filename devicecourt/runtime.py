@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS recovery_cases(id TEXT PRIMARY KEY,allocation TEXT,re
 '''
 def handle(db,x):
  op=x['op']
+ if op=='packet-latch':
+  return packet.latch_mode(db,x)
  if op=='packet-execute':
   return packet.execute(db,x)
  if op=='startup-confirm':
