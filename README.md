@@ -52,3 +52,8 @@ python -m unittest discover -s tests -v
 - **设备发现庭 → 启动验收庭**：GPU-7 的解绑回执与分配关闭共同使配额返还，另一租户 req-2 才能保留同一设备。失败分支：缺解绑证据时虚报释放不得同时满足 req-1 和 req-2
 
 该仓仅实现本地业务状态与回执协议；不连接真实 Kubernetes、设备插件、时间服务或告警平台。
+
+## 板内算力切片
+
+用 `python -B -m devicecourt allocate --fixture fixtures/compute_slices.json --db slices.sqlite` 演示板卡持有人细分算力。
+发现层公布同代设备的合法计算单元形状。分配端以实际位置排除重叠，并在首次提交时选择最靠前的可用形状。

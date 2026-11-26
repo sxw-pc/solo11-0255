@@ -1,11 +1,14 @@
+from . import slices
 from .store import one,rows
 SCHEMA='''
 CREATE TABLE IF NOT EXISTS requests(id TEXT PRIMARY KEY,tenant TEXT,model TEXT,topology TEXT,status TEXT);
 CREATE TABLE IF NOT EXISTS allocations(id TEXT PRIMARY KEY,request TEXT,device TEXT,device_epoch INTEGER,holder TEXT,generation INTEGER,status TEXT);
 CREATE TABLE IF NOT EXISTS quota_ledgers(tenant TEXT PRIMARY KEY,limit_count INTEGER,used INTEGER);
-'''
+''' + slices.ALLOCATION_SCHEMA
 def handle(db,x):
  op=x['op']
+ if op=='slice-reserve':
+  return slices.reserve(db,x)
  if op=='quota':
   if x['limit']<1:return {'decision':'invalid_quota'}
   db.execute('INSERT INTO quota_ledgers VALUES(?,?,0) ON CONFLICT(tenant) DO UPDATE SET limit_count=excluded.limit_count',(x['tenant'],x['limit']))

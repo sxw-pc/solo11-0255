@@ -1,0 +1,187 @@
+[
+  {
+    "command": "inventory",
+    "input": {
+      "op": "plugin-register",
+      "id": "plugin",
+      "uid": "p",
+      "epoch": 1,
+      "event_id": "slice-0"
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "op": "device-identify",
+      "id": "board",
+      "plugin": "plugin",
+      "epoch": 1,
+      "slot": "s",
+      "serial": "s1",
+      "model": "M",
+      "topology": "T",
+      "event_id": "slice-1"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "quota",
+      "tenant": "team",
+      "limit": 1,
+      "event_id": "slice-2"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "request-evaluate",
+      "id": "request",
+      "tenant": "team",
+      "model": "M",
+      "topology": "T",
+      "event_id": "slice-3"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "device-reserve",
+      "id": "board-lease",
+      "request": "request",
+      "device": "board",
+      "holder": "team",
+      "event_id": "slice-4"
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "op": "slice-layout",
+      "device": "board",
+      "epoch": 1,
+      "revision": 1,
+      "profiles": {
+        "small": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "wide": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "exact": [
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      "event_id": "slice-5"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-reserve",
+      "id": "ls",
+      "allocation": "board-lease",
+      "revision": 1,
+      "profile": "small",
+      "job": "S",
+      "event_id": "slice-6"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-reserve",
+      "id": "lw",
+      "allocation": "board-lease",
+      "revision": 1,
+      "profile": "wide",
+      "job": "W",
+      "event_id": "slice-7"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-reserve",
+      "id": "lx",
+      "allocation": "board-lease",
+      "revision": 1,
+      "profile": "exact",
+      "job": "X",
+      "event_id": "slice-8"
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "op": "slice-layout",
+      "device": "board",
+      "epoch": 1,
+      "revision": 2,
+      "profiles": {
+        "small": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "wide": [
+          [
+            0,
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4,
+            5
+          ]
+        ],
+        "exact": [
+          [
+            0,
+            1
+          ]
+        ]
+      },
+      "event_id": "slice-9"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-reserve",
+      "id": "lw2",
+      "allocation": "board-lease",
+      "revision": 2,
+      "profile": "wide",
+      "job": "W2",
+      "event_id": "slice-10"
+    }
+  }
+]

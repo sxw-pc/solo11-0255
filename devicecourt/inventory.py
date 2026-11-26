@@ -1,11 +1,14 @@
+from . import slices
 from .store import one
 SCHEMA='''
 CREATE TABLE IF NOT EXISTS plugins(id TEXT PRIMARY KEY,uid TEXT,epoch INTEGER,status TEXT);
 CREATE TABLE IF NOT EXISTS devices(id TEXT PRIMARY KEY,plugin TEXT,epoch INTEGER,slot TEXT,serial TEXT,model TEXT,topology TEXT,status TEXT);
 CREATE TABLE IF NOT EXISTS health_samples(id TEXT PRIMARY KEY,device TEXT,epoch INTEGER,seq INTEGER,healthy INTEGER,severity TEXT,at INTEGER);
-'''
+''' + slices.INVENTORY_SCHEMA
 def handle(db,x):
  op=x['op']
+ if op=='slice-layout':
+  return slices.publish(db,x)
  if op=='plugin-register':
   old=one(db,'SELECT * FROM plugins WHERE id=?',(x['id'],))
   if old and x['epoch']<=old['epoch']:return {'decision':'stale_plugin'}
