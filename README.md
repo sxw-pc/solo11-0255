@@ -57,3 +57,15 @@ python -m unittest discover -s tests -v
 
 用 `python -B -m devicecourt allocate --fixture fixtures/compute_slices.json --db slices.sqlite` 演示板卡持有人细分算力。
 发现层公布同代设备的合法计算单元形状。分配端以实际位置排除重叠，并在首次提交时选择最靠前的可用形状。
+
+### 切片重排（维护现场）
+
+板上单元 0–7；每次板上确认只能做一件事：建立准备绑定、交换执行者或回收已退出绑定。
+
+- `slice-prepare` 建立不重叠的准备绑定；准备态同样占用物理单元。目标与当前绑定重叠时，一次普通交换没有合法实际顺序，直接拒绝（`no_slice_sequence`），不能仅凭目标坐标对外无冲突就许可。
+- `slice-water` 登记合成回执：执行中绑定受证水位（`executed`），准备绑定交接水位（`handover`）。`slice-commit` 只在交接水位接住受证水位后交换执行者（否则 `slice_water_unproven`），旧绑定随即退出并由 `slice-reclaim` 回收；不能凭计划声明申请已交付。
+- 发现庭换版或撤回形状后，仍引用旧修订的未完成动作不得提交（`slice_layout_superseded`），实操重排从可交付变为只能等待；`slice-abort` 清退不再可提交的准备绑定。
+- 布局中的 `temporary` 形状仅供切换暂驻：普通 `slice-reserve` 永不落位于此，作业完成重排后须交还。
+- `slice-pause` 须凭可继续执行的暂停回执（停机授权）：作业交还旧占位，受证水位转入正式恢复权（`slice_recovery_rights`），不再计入运行集合，也不得再冒称仍在执行。
+
+合同现场（各自从空库运行并 replay）：`fixtures/slice_continuous.json` 为连续交付合同——W、S 不停机，经临时形状 [4,6] 逐步搬移，最终 W[2,5]、S[3]、X[0,1] 同跑；`fixtures/slice_residence.json` 为原驻址合同——W 驻守 [2,3]，S 凭暂停回执交还 [1] 并留下水位 4 的恢复权，最终 W 与 X 运行；`fixtures/slice_late_receipt.json` 核对准备成功但交接回执迟到时的水位与占用，随后撤回 [4,6]，连续交付只能等待。

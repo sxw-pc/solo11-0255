@@ -1,0 +1,210 @@
+[
+  {
+    "command": "inventory",
+    "input": {
+      "op": "plugin-register",
+      "id": "plugin",
+      "uid": "p",
+      "epoch": 1,
+      "event_id": "late-0"
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "op": "device-identify",
+      "id": "board",
+      "plugin": "plugin",
+      "epoch": 1,
+      "slot": "s",
+      "serial": "s1",
+      "model": "M",
+      "topology": "T",
+      "event_id": "late-1"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "quota",
+      "tenant": "team",
+      "limit": 1,
+      "event_id": "late-2"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "request-evaluate",
+      "id": "request",
+      "tenant": "team",
+      "model": "M",
+      "topology": "T",
+      "event_id": "late-3"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "device-reserve",
+      "id": "board-lease",
+      "request": "request",
+      "device": "board",
+      "holder": "team",
+      "event_id": "late-4"
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "op": "slice-layout",
+      "device": "board",
+      "epoch": 1,
+      "revision": 1,
+      "profiles": {
+        "small": [[1], [3]],
+        "wide": [[2, 3], [2, 5]],
+        "exact": [[0, 1]]
+      },
+      "event_id": "late-5"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-reserve",
+      "id": "ls",
+      "allocation": "board-lease",
+      "revision": 1,
+      "profile": "small",
+      "job": "S",
+      "event_id": "late-6"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-reserve",
+      "id": "lw",
+      "allocation": "board-lease",
+      "revision": 1,
+      "profile": "wide",
+      "job": "W",
+      "event_id": "late-7"
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "op": "slice-layout",
+      "device": "board",
+      "epoch": 1,
+      "revision": 2,
+      "profiles": {
+        "small": [[1], [3]],
+        "wide": [[2, 3], [2, 5]],
+        "exact": [[0, 1]]
+      },
+      "temporary": {
+        "wide": [[4, 6]]
+      },
+      "event_id": "late-8"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-reserve",
+      "id": "lw2",
+      "allocation": "board-lease",
+      "revision": 2,
+      "profile": "wide",
+      "job": "W2",
+      "event_id": "late-9"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-prepare",
+      "id": "lw-p1",
+      "device": "board",
+      "job": "W",
+      "revision": 2,
+      "lanes": [4, 6],
+      "event_id": "late-10"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-water",
+      "id": "wr-w-1",
+      "lease": "lw",
+      "water": 5,
+      "event_id": "late-11"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-commit",
+      "lease": "lw-p1",
+      "event_id": "late-12"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-prepare",
+      "id": "lw-p1b",
+      "device": "board",
+      "job": "W",
+      "revision": 2,
+      "lanes": [2, 5],
+      "event_id": "late-13"
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "op": "slice-layout",
+      "device": "board",
+      "epoch": 1,
+      "revision": 3,
+      "profiles": {
+        "small": [[1], [3]],
+        "wide": [[2, 3], [2, 5]],
+        "exact": [[0, 1]]
+      },
+      "temporary": {},
+      "event_id": "late-14"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-water",
+      "id": "wr-w-2",
+      "lease": "lw-p1",
+      "water": 5,
+      "event_id": "late-15"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-commit",
+      "lease": "lw-p1",
+      "event_id": "late-16"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-abort",
+      "lease": "lw-p1",
+      "event_id": "late-17"
+    }
+  }
+]

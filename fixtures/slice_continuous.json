@@ -1,0 +1,310 @@
+[
+  {
+    "command": "inventory",
+    "input": {
+      "op": "plugin-register",
+      "id": "plugin",
+      "uid": "p",
+      "epoch": 1,
+      "event_id": "cont-0"
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "op": "device-identify",
+      "id": "board",
+      "plugin": "plugin",
+      "epoch": 1,
+      "slot": "s",
+      "serial": "s1",
+      "model": "M",
+      "topology": "T",
+      "event_id": "cont-1"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "quota",
+      "tenant": "team",
+      "limit": 1,
+      "event_id": "cont-2"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "request-evaluate",
+      "id": "request",
+      "tenant": "team",
+      "model": "M",
+      "topology": "T",
+      "event_id": "cont-3"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "device-reserve",
+      "id": "board-lease",
+      "request": "request",
+      "device": "board",
+      "holder": "team",
+      "event_id": "cont-4"
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "op": "slice-layout",
+      "device": "board",
+      "epoch": 1,
+      "revision": 1,
+      "profiles": {
+        "small": [[1], [3]],
+        "wide": [[2, 3], [2, 5]],
+        "exact": [[0, 1]]
+      },
+      "event_id": "cont-5"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-reserve",
+      "id": "ls",
+      "allocation": "board-lease",
+      "revision": 1,
+      "profile": "small",
+      "job": "S",
+      "event_id": "cont-6"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-reserve",
+      "id": "lw",
+      "allocation": "board-lease",
+      "revision": 1,
+      "profile": "wide",
+      "job": "W",
+      "event_id": "cont-7"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-reserve",
+      "id": "lx",
+      "allocation": "board-lease",
+      "revision": 1,
+      "profile": "exact",
+      "job": "X",
+      "event_id": "cont-8"
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "op": "slice-layout",
+      "device": "board",
+      "epoch": 1,
+      "revision": 2,
+      "profiles": {
+        "small": [[1], [3]],
+        "wide": [[2, 3], [2, 5]],
+        "exact": [[0, 1]]
+      },
+      "temporary": {
+        "wide": [[4, 6]]
+      },
+      "event_id": "cont-9"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-prepare",
+      "id": "lw-p0",
+      "device": "board",
+      "job": "W",
+      "revision": 2,
+      "lanes": [2, 5],
+      "event_id": "cont-10"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-prepare",
+      "id": "lw-p1",
+      "device": "board",
+      "job": "W",
+      "revision": 2,
+      "lanes": [4, 6],
+      "event_id": "cont-11"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-water",
+      "id": "wr-w-1",
+      "lease": "lw",
+      "water": 5,
+      "event_id": "cont-12"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-water",
+      "id": "wr-w-2",
+      "lease": "lw-p1",
+      "water": 5,
+      "event_id": "cont-13"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-commit",
+      "lease": "lw-p1",
+      "event_id": "cont-14"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-reclaim",
+      "lease": "lw",
+      "event_id": "cont-15"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-prepare",
+      "id": "lw-p2",
+      "device": "board",
+      "job": "W",
+      "revision": 2,
+      "lanes": [2, 5],
+      "event_id": "cont-16"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-water",
+      "id": "wr-w-3",
+      "lease": "lw-p1",
+      "water": 6,
+      "event_id": "cont-17"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-water",
+      "id": "wr-w-4",
+      "lease": "lw-p2",
+      "water": 6,
+      "event_id": "cont-18"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-commit",
+      "lease": "lw-p2",
+      "event_id": "cont-19"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-reclaim",
+      "lease": "lw-p1",
+      "event_id": "cont-20"
+    }
+  },
+  {
+    "command": "inventory",
+    "input": {
+      "op": "slice-layout",
+      "device": "board",
+      "epoch": 1,
+      "revision": 3,
+      "profiles": {
+        "small": [[1], [3]],
+        "wide": [[2, 3], [2, 5]],
+        "exact": [[0, 1]]
+      },
+      "temporary": {},
+      "event_id": "cont-21"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-prepare",
+      "id": "ls-p1",
+      "device": "board",
+      "job": "S",
+      "revision": 3,
+      "lanes": [3],
+      "event_id": "cont-22"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-water",
+      "id": "wr-s-1",
+      "lease": "ls",
+      "water": 3,
+      "event_id": "cont-23"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-water",
+      "id": "wr-s-2",
+      "lease": "ls-p1",
+      "water": 3,
+      "event_id": "cont-24"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-commit",
+      "lease": "ls-p1",
+      "event_id": "cont-25"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-reclaim",
+      "lease": "ls",
+      "event_id": "cont-26"
+    }
+  },
+  {
+    "command": "allocate",
+    "input": {
+      "op": "slice-reserve",
+      "id": "lx",
+      "allocation": "board-lease",
+      "revision": 3,
+      "profile": "exact",
+      "job": "X",
+      "event_id": "cont-27"
+    }
+  }
+]

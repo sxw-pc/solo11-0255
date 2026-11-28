@@ -9,6 +9,18 @@ def handle(db,x):
  op=x['op']
  if op=='slice-reserve':
   return slices.reserve(db,x)
+ if op=='slice-prepare':
+  return slices.prepare(db,x)
+ if op=='slice-commit':
+  return slices.commit(db,x)
+ if op=='slice-reclaim':
+  return slices.reclaim(db,x)
+ if op=='slice-abort':
+  return slices.abort(db,x)
+ if op=='slice-water':
+  return slices.water(db,x)
+ if op=='slice-pause':
+  return slices.pause(db,x)
  if op=='quota':
   if x['limit']<1:return {'decision':'invalid_quota'}
   db.execute('INSERT INTO quota_ledgers VALUES(?,?,0) ON CONFLICT(tenant) DO UPDATE SET limit_count=excluded.limit_count',(x['tenant'],x['limit']))
